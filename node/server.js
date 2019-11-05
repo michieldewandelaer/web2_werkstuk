@@ -61,10 +61,11 @@ app.post('/api/insertDriver', (req, res) => {
     });
 });
 
+//push to mongodb
 app.post('/api/2019/Drivers', (req, res) => {
     //let collection = db.collection('grid2019');
     //collection.insertMany(req.body);
-    console.log(req.body)
+    //console.log(req.body)
 })
 
 //werkt in postman

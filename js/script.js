@@ -37,14 +37,17 @@ $(function () {
             for (let driver of drivers) {
                 $('#listOfDriver2019').append(`<strong>Driver:</strong> ${driver.givenName} ${driver.familyName} ${driver.permanentNumber} <br> `);
             }
+
+            //post drivers to backend
+            /*
             $.ajax({
                 url: 'http://127.0.0.1:3000/api/2019/Drivers',
                 method: 'POST',
                 dataType: 'json',
-                data: drivers,
+                data: JSON.stringify(drivers),
                 contentType: "application/json",
-                succes: console.log(drivers)
-            })
+                succes: 'drivers send!'
+            })*/
             //console.log(drivers);
         }).fail(function (er1, er2) {
             console.log(er1);
