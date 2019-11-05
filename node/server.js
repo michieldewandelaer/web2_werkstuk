@@ -15,12 +15,10 @@ let user = "MongoDBWeb2055";
 let password = "59473128"
 const url = `mongodb://${user}:${password}@172.20.0.54:27017/?authMechanism=DEFAULT&authSource=${user}`;
 
-
 // Create a new MongoClient
 const client = new MongoClient(url);
 
 let db;
-let collection;
 
 // Use connect method to connect to the Server
 client.connect(function (err) {
@@ -28,7 +26,6 @@ client.connect(function (err) {
     console.log("Connected successfully to server");
 
     db = client.db(user);
-    collection = db.collection('drivers');
 });
 
 //Makkelijker cors toelaten
@@ -49,6 +46,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.get('/api/getAllDrivers', (req, res) => {
+    let collection = db.collection('drivers');
     collection.find().toArray().then(function (data) {
         res.send(data)
     })
@@ -62,6 +60,12 @@ app.post('/api/insertDriver', (req, res) => {
         number
     });
 });
+
+app.post('/api/2019/Drivers', (req, res) => {
+    //let collection = db.collection('grid2019');
+    //collection.insertMany(req.body);
+    console.log(req.body)
+})
 
 //werkt in postman
 //problemen met cors op de browser
