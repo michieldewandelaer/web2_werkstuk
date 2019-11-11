@@ -78,6 +78,23 @@ app.delete('/api/deleteDriver', (req, res) => {
     });
 })
 
+//werkt nog niet
+app.post('/api/updateDriver', (req, res) => {
+    let collection = db.collection('drivers');
+    var objectId = new objectId(req.body.id)
+    collection.updateOne({
+        _id: objectId
+    }, {
+        $set: {
+            name: req.body.name,
+            number: req.body.number
+        }
+    }).then(function (data) {
+        console.log(data)
+        res.send('driver updated')
+    })
+})
+
 app.get('/api/getDriver', (req, res) => {
     let collection = db.collection('drivers');
     var objectId = new ObjectID(req.query.id)
