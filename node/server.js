@@ -68,10 +68,19 @@ app.post('/api/2019/Drivers', (req, res) => {
     //console.log(req.body)
 })
 
-//werkt in postman
-//problemen met cors op de browser
-app.post('/api/getDriver', (req, res) => {
-    var objectId = new ObjectID(req.body.id)
+app.delete('/api/deleteDriver', (req, res) => {
+    let collection = db.collection('drivers');
+    var objectId = new ObjectID(req.query.id)
+    collection.deleteOne({
+        _id: objectId
+    }).then(function (data) {
+        res.send('deleted!')
+    });
+})
+
+app.get('/api/getDriver', (req, res) => {
+    let collection = db.collection('drivers');
+    var objectId = new ObjectID(req.query.id)
     collection.findOne({
         _id: objectId
     }).then(function (data) {
