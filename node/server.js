@@ -41,6 +41,7 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser.urlencoded({
     extended: false
+    //misschien op true
 }));
 
 app.use(bodyParser.json());
