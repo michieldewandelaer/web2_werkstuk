@@ -5,24 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/jpg" href="img/f1-logo.jpg" />
     <link rel="stylesheet" href="css/stylesheet.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/script.js"></script>
-    <title>Formula 1</title>
+    <title>Formula 1 app</title>
 </head>
 
 <body>
-    <header>
-        <ul>
-            <li><a class="active" href="index.html">Home</a></li>
-            <li><a href="form.html">form</a></li>
-            <li><a href="driver.html">Driver</a></li>
-            <li><a href="race.html">Start Race</a></li>
-            <li><a href="myraces.html">My races</a></li>
-            <li><a href="info.html">F1 Info</a></li>
-        </ul>
-        <br>
-    </header>
+    <div class="grid-container-home">
+        <div class="itemheader">
+            <ul>
+                <li><a class="active" href="index.html">Home</a></li>
+                <li><a href="form.html">form</a></li>
+                <li><a href="driver.html">Driver</a></li>
+                <li><a href="race.html">Start Race</a></li>
+                <li><a href="myraces.html">My races</a></li>
+                <li><a href="info.html">F1 Info</a></li>
+            </ul>
+        </div>
+        <div class="homecontent">
+            <div class="bg-img"></div>
+            <video autoplay muted loop id="myVideo">
+                <source src="img/F1-loop.mp4" type="video/mp4">
+            </video>
+            <div class="bg-text">
+                <h2>A Formula 1 app</h2>
+                <br>
+                <p>Available features</p>
+
+            </div>
+
+        </div>
+        <div class="itemfooter">
+
+        </div>
+
+    </div>
+
+
 
 
 </body>

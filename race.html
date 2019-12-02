@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/jpg" href="img/f1-logo.jpg" />
     <link rel="stylesheet" href="css/stylesheet.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/script.js"></script>
@@ -12,15 +13,59 @@
 </head>
 
 <body>
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="form.html">form</a></li>
-        <li><a href="driver.html">Driver</a></li>
-        <li><a class="active" href="race.html">Start Race</a></li>
-        <li><a href="myraces.html">My races</a></li>
-        <li><a href="info.html">F1 Info</a></li>
-    </ul>
+    <div class="grid-container">
+        <div class="itemheader">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="form.html">form</a></li>
+                <li><a href="driver.html">Driver</a></li>
+                <li><a class="active" href="race.html">Start Race</a></li>
+                <li><a href="myraces.html">My races</a></li>
+                <li><a href="info.html">F1 Info</a></li>
+            </ul>
+        </div>
+        <div class="itemcontent">
+            <div class="leftcontent">
+                <h2>Choose your driver</h2>
+                <label for="driver">Driver</label>
+                <br>
+                <select id="driver" name="driver">
+                    <option value="mclaren">erick</option>
+                    <option value="redbull">tamara</option>
+                    <option value="Mercedes">david</option>
+                    <option value="ferrari">alex</option>
+                </select>
+                <br>
+                <h2>Choose grid year</h2>
+                <label for="year">Year:</label>
+                <br>
+                <input id="gridyear" type="number" name="gridyear" min="1950" max="2020">
+                <div class="gridyear"></div>
 
+            </div>
+
+            <div class="rightcontent">
+                <h2>Choose your track</h2>
+                <label for="year">Year</label>
+                <br>
+                <select id="year" name="year">
+                    <option value="mclaren">1950</option>
+                    <option value="redbull">1980</option>
+                    <option value="Mercedes">1999</option>
+                </select>
+                <input type="radio" name="track" value="Belgium"> Belgium<br>
+                <input type="radio" name="track" value="Austria"> Austria<br>
+                <input type="radio" name="track" value="Italie"> Italie
+            </div>
+            <div class="onder">
+                <input class="startrace" value="Submit">
+            </div>
+
+        </div>
+        <div class="itemfooter">
+
+        </div>
+    </div>
 </body>
 
 </html>

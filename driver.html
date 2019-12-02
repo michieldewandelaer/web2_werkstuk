@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/jpg" href="img/f1-logo.jpg" />
     <link rel="stylesheet" href="css/stylesheet.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/script.js"></script>
-    <title>Document</title>
+    <title>Drivers</title>
 </head>
 
 <body>
@@ -24,52 +25,94 @@
             </ul>
         </div>
         <div class="itemcontent">
-            <h2>Drivers</h2>
+            <div class="leftcontent">
+                <h2>Drivers</h2>
 
-            <div class="grid-drivers">
+                <div class="grid-drivers">
 
-                <div class="card">
-                    <img src="img/image.jpg">
-                    <div class="caption">
-                        <h1>Erick Lablanc</h1>
-                        <p>mclaren - 2005</p>
+                    <div class="card">
+                        <span class="del">&times;</span>
+                        <img src="img/mclaren-logo.png">
+                        <div class="caption">
+                            <h1>Erick Lablanc</h1>
+                            <p>mclaren - 2005</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="card">
-                    <img src="img/image.jpg">
-                    <div class="caption">
-                        <h1>Erick Lablanc</h1>
-                        <p>mclaren - 2005</p>
+                    <div class="card">
+                        <span class="del">&times;</span>
+                        <img src="img/redbull-logo.jpg">
+                        <div class="caption">
+                            <h1>Erick Lablanc</h1>
+                            <p>mclaren - 2005</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="card">
-                    <img src="img/image.jpg">
-                    <div class="caption">
-                        <h1>Erick Lablanc</h1>
-                        <p>mclaren - 2005</p>
+                    <div class="card">
+                        <span class="del">&times;</span>
+                        <img src="img/mercedes-logo.jpg">
+                        <div class="caption">
+                            <h1>Erick Lablanc</h1>
+                            <p>mclaren - 2005</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="card">
-                    <img src="img/image.jpg">
-                    <div class="caption">
-                        <h1>Erick Lablanc</h1>
-                        <p>mclaren - 2005</p>
+                    <div class="card">
+                        <span class="del">&times;</span>
+                        <img src="img/redbull-logo.jpg">
+                        <div class="caption">
+                            <h1>Erick Lablanc</h1>
+                            <p>mclaren - 2005</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="card">
-                    <img src="img/image.jpg">
-                    <div class="caption">
-                        <h1>Erick Lablanc</h1>
-                        <p>mclaren - 2005</p>
+                    <div class="card">
+                        <span class="del">&times;</span>
+                        <img src="img/mercedes-logo.jpg">
+                        <div class="caption">
+                            <h1>Erick Lablanc</h1>
+                            <p>mclaren - 2005</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <span class="del">&times;</span>
+                        <img src="img/mclaren-logo.png">
+                        <div class="caption">
+                            <h1>Erick Lablanc</h1>
+                            <p>mclaren - 2005</p>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="rightcontent">
                 <h2>Make driver</h2>
+                <form>
+                    <label for="">First name:</label>
+                    <br>
+                    <input type="text" name="fname">
+                    <br>
+                    <label for="">last name:</label>
+                    <br>
+                    <input type="text" name="lname">
+                    <br>
+                    <label for="year">Year:</label>
+                    <select id="year" name="year">
+                        <option value="1950">1950</option>
+                        <option value="1960">1960</option>
+                        <option value="1970">1970</option>
+                    </select>
+                    <label for="team">Team:</label>
+                    <br>
+                    <select id="team" name="team">
+                        <option value="mclare">Mclaren</option>
+                        <option value="redbull">Redbull</option>
+                        <option value="Mercedes">Mercedes</option>
+                        <option value="ferrari">Ferrari</option>
+                    </select>
+                    <input type="submit" value="Submit">
+                </form>
+
             </div>
 
 
