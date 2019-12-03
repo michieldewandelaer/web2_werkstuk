@@ -71,7 +71,7 @@ app.post('/api/insertDriver', (req, res) => {
 
 app.delete('/api/deleteDriver', (req, res) => {
     let collection = db.collection('drivers');
-    var objectId = new ObjectID(req.query.id)
+    var objectId = new ObjectID(req.body.id)
     collection.deleteOne({
         _id: objectId
     }).then(function (data) {

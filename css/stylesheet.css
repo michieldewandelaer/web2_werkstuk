@@ -164,7 +164,7 @@ a:hover::after {
     width: 30%;
 }
 
-.card .del {
+.card .delDriver {
     position: absolute;
     top: 3px;
     right: 3px;
@@ -181,7 +181,7 @@ a:hover::after {
     border-radius: 50%;
 }
 
-.card .del:hover {
+.card .delDriver:hover {
     opacity: 1;
     color: red;
 }

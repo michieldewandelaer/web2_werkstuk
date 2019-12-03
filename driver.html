@@ -30,7 +30,7 @@
                 <div class="grid-drivers">
 
                     <div class="card">
-                        <span class="del">&times;</span>
+                        <span class="delDriver">&times;</span>
                         <img src="img/mclaren-logo.png">
                         <div class="caption">
                             <h1>Erick Lablanc</h1>
@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="card">
-                        <span class="del">&times;</span>
+                        <span class="delDriver">&times;</span>
                         <img src="img/redbull-logo.jpg">
                         <div class="caption">
                             <h1>Erick Lablanc</h1>
@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="card">
-                        <span class="del">&times;</span>
+                        <span class="delDriver">&times;</span>
                         <img src="img/mercedes-logo.jpg">
                         <div class="caption">
                             <h1>Erick Lablanc</h1>
@@ -70,7 +70,7 @@
                     <br>
                     <label for="dnumber">Driver number:</label>
                     <br>
-                    <input id="dnumber" type="text" name="dnumber">
+                    <input id="dnumber" type="number" name="dnumber">
                     <br>
                     <label for="year">Year:</label>
                     <input id="yearConstructor" type="number" name="yearConstructor" min="1950" max="2020">
@@ -78,7 +78,7 @@
                     <br>
                     <select id="constructorOption" name="constructor">
                     </select>
-                    <button type="submit">Voeg toe</button>
+                    <button id="submit" onclick="location.reload();">Voeg toe</button>
                 </form>
 
             </div>

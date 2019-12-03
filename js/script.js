@@ -18,7 +18,7 @@ $(function () {
             for (let d of data) {
                 $('.grid-drivers').append(`
                 <div class="card">
-                    <span class="del">&times;</span>
+                    <span class="delDriver" id="${d._id}" >&times;</span>
                     <img src="img/McLaren-logo.png">
                     <div class="caption">
                         <h1> ${d.fname} ${d.lname} </h1>
@@ -137,10 +137,11 @@ $(function () {
     function getConstructors() {
         $('#yearConstructor').on('keyup', function (e) {
             let year = $('#yearConstructor').val();
+            $('option').remove()
             var d = new Date();
             var currentYear = d.getFullYear();
             if (year < 1950 || year > currentYear + 1) {
-                alert(`Geef een jaar tussen 1950 en ${currentYear + 1}`)
+                //alert(`Geef een jaar tussen 1950 en ${currentYear + 1}`)
             } else {
                 $.ajax({
                     url: `http://ergast.com/api/f1/${year}/constructors.json`,
@@ -158,7 +159,7 @@ $(function () {
         })
     }
 
-    $('.insertdriver').submit(function (e) {
+    $('#submit').on('click', function (e) {
         e.preventDefault();
 
         let driverObject = {
@@ -175,10 +176,29 @@ $(function () {
         }).done(function (data) {
             console.log('inserted');
 
+        }).fail(function (er1, er2) {
+            console.log(er1);
+            console.log(er2);
+        });
+    })
+
+    $(document).on('click', '.delDriver', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('id');
+        $.ajax({
+            url: 'http://127.0.0.1:3000/api/deleteDriver',
+            method: 'DELETE',
+            data: {
+                id: id
+            }
+        }).done(function (data) {
+            console.log('deleted')
+            location.reload()
 
         }).fail(function (er1, er2) {
             console.log(er1);
             console.log(er2);
         });
+
     })
 })
