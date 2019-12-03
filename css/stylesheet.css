@@ -220,7 +220,8 @@ a:hover::after {
     transform: translateY(-10%);
 }
 
-input[type=text],
+button,
+input,
 #year,
 #team {
     width: 100%;
@@ -232,7 +233,7 @@ input[type=text],
     box-sizing: border-box;
 }
 
-input[type=submit] {
+button {
     width: 100%;
     background-color: #E10600;
     color: white;
@@ -266,7 +267,7 @@ input[type=submit] {
 }
 
 
-input[type=submit]:hover {
+button:hover {
     background-color: #D10600;
 }
 

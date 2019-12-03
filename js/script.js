@@ -3,6 +3,7 @@ $(function () {
     console.log('linked');
 
     getList();
+    getAllDrivers();
 
     getList2019();
 
@@ -17,6 +18,32 @@ $(function () {
             console.log('done mongodb');
             for (let d of data) {
                 $('#listOfDriver').append(`<strong>Driver:</strong> ${d.name} ${d.number} <br> `);
+            }
+        }).fail(function (er1, er2) {
+            console.log(er1);
+            console.log(er2);
+        });
+    };
+
+
+    function getAllDrivers() {
+        $.ajax({
+            url: 'http://127.0.0.1:3000/api/getAllDrivers',
+            method: 'GET',
+            dataType: 'json'
+        }).done(function (data) {
+            console.log('done mongodb');
+            for (let d of data) {
+                $('.grid-drivers').append(`
+                <div class="card">
+                    <span class="del">&times;</span>
+                    <img src="img/Mercedes-logo.jpg">
+                    <div class="caption">
+                        <h1> ${d.fname} ${d.lname} </h1>
+                        <p> ${d.team} - ${d.year} </p>
+                    </div>
+                </div>
+                `);
             }
         }).fail(function (er1, er2) {
             console.log(er1);
@@ -84,12 +111,15 @@ $(function () {
 
     };
 
-    $('form').submit(function (e) {
+    $('.insertdriver').submit(function (e) {
         e.preventDefault();
 
         let driverObject = {
-            name: $('#drivername').val(),
-            number: $('#drivernumber').val(),
+            fname: $('#fname').val(),
+            lname: $('#lname').val(),
+            dnumber: $('#dnumber').val(),
+            year: $('#year').val(),
+            team: $('#team').val(),
         }
         $.ajax({
             url: 'http://127.0.0.1:3000/api/insertDriver',

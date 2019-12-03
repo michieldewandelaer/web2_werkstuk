@@ -54,19 +54,26 @@ app.get('/api/getAllDrivers', (req, res) => {
 });
 
 app.post('/api/insertDriver', (req, res) => {
-    let name = req.body.name;
-    let number = req.body.number;
+    let collection = db.collection('drivers');
+    let fname = req.body.fname;
+    let lname = req.body.lname;
+    let dnumber = req.body.dnumber;
+    let year = req.body.year;
+    let team = req.body.team;
     collection.insertOne({
-        name,
-        number
+        fname,
+        lname,
+        dnumber,
+        year,
+        team
     });
 });
 
 //push to mongodb
 app.post('/api/2019/Drivers', (req, res) => {
-    //let collection = db.collection('grid2019');
-    //collection.insertMany(req.body);
-    //console.log(req.body)
+    let collection = db.collection('grid2019');
+    collection.insertMany(req.body);
+    console.log(req.body)
 })
 
 app.delete('/api/deleteDriver', (req, res) => {

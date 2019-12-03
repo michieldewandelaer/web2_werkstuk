@@ -56,53 +56,22 @@
                             <p>mclaren - 2005</p>
                         </div>
                     </div>
-
-                    <div class="card">
-                        <span class="del">&times;</span>
-                        <img src="img/redbull-logo.jpg">
-                        <div class="caption">
-                            <h1>Erick Lablanc</h1>
-                            <p>mclaren - 2005</p>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <span class="del">&times;</span>
-                        <img src="img/mercedes-logo.jpg">
-                        <div class="caption">
-                            <h1>Erick Lablanc</h1>
-                            <p>mclaren - 2005</p>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <span class="del">&times;</span>
-                        <img src="img/mclaren-logo.png">
-                        <div class="caption">
-                            <h1>Erick Lablanc</h1>
-                            <p>mclaren - 2005</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <span class="del">&times;</span>
-                        <img src="img/mclaren-logo.png">
-                        <div class="caption">
-                            <h1>Erick Lablanc</h1>
-                            <p>mclaren - 2005</p>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="rightcontent">
                 <h2>Make driver</h2>
-                <form>
-                    <label for="">First name:</label>
+                <form class="insertdriver">
+                    <label for="fname">First name:</label>
                     <br>
-                    <input type="text" name="fname">
+                    <input id="fname" type="text" name="fname">
                     <br>
-                    <label for="">last name:</label>
+                    <label for="lname">Last name:</label>
                     <br>
-                    <input type="text" name="lname">
+                    <input id="lname" type="text" name="lname">
+                    <br>
+                    <label for="dnumber">Driver number:</label>
+                    <br>
+                    <input id="dnumber" type="text" name="dnumber">
                     <br>
                     <label for="year">Year:</label>
                     <select id="year" name="year">
@@ -113,12 +82,12 @@
                     <label for="team">Team:</label>
                     <br>
                     <select id="team" name="team">
-                        <option value="mclare">Mclaren</option>
+                        <option value="mclaren">Mclaren</option>
                         <option value="redbull">Redbull</option>
                         <option value="Mercedes">Mercedes</option>
                         <option value="ferrari">Ferrari</option>
                     </select>
-                    <input type="submit" value="Submit">
+                    <button type="submit">Voeg toe</button>
                 </form>
 
             </div>
