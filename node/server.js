@@ -69,13 +69,6 @@ app.post('/api/insertDriver', (req, res) => {
     });
 });
 
-//push to mongodb
-app.post('/api/2019/Drivers', (req, res) => {
-    let collection = db.collection('grid2019');
-    collection.insertMany(req.body);
-    console.log(req.body)
-})
-
 app.delete('/api/deleteDriver', (req, res) => {
     let collection = db.collection('drivers');
     var objectId = new ObjectID(req.query.id)
@@ -85,6 +78,15 @@ app.delete('/api/deleteDriver', (req, res) => {
         res.send('deleted!')
     });
 })
+
+//push to mongodb
+app.post('/api/2019/Drivers', (req, res) => {
+    let collection = db.collection('grid2019');
+    collection.insertMany(req.body);
+    console.log(req.body)
+})
+
+
 
 //werkt nog niet
 app.post('/api/updateDriver', (req, res) => {

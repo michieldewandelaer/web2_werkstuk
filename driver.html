@@ -17,7 +17,6 @@
         <div class="itemheader">
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="form.html">form</a></li>
                 <li><a class="active" href="driver.html">Drivers</a></li>
                 <li><a href="race.html">Start Race</a></li>
                 <li><a href="myraces.html">My races</a></li>
@@ -74,18 +73,10 @@
                     <input id="dnumber" type="text" name="dnumber">
                     <br>
                     <label for="year">Year:</label>
-                    <select id="year" name="year">
-                        <option value="1950">1950</option>
-                        <option value="1960">1960</option>
-                        <option value="1970">1970</option>
-                    </select>
+                    <input id="yearConstructor" type="number" name="yearConstructor" min="1950" max="2020">
                     <label for="team">Team:</label>
                     <br>
-                    <select id="team" name="team">
-                        <option value="mclaren">Mclaren</option>
-                        <option value="redbull">Redbull</option>
-                        <option value="Mercedes">Mercedes</option>
-                        <option value="ferrari">Ferrari</option>
+                    <select id="constructorOption" name="constructor">
                     </select>
                     <button type="submit">Voeg toe</button>
                 </form>
