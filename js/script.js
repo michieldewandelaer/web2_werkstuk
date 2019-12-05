@@ -40,71 +40,70 @@ $(function () {
     };
 
     function getDriverGrid() {
-        $('#yeargrid').on('keypress', function (e) {
-            if (e.which == 13) {
-                $('.drivergrid').remove();
-                let year = $('#yeargrid').val();
-                var d = new Date();
-                var currentYear = d.getFullYear();
-                if (year < 1950 || year > currentYear + 1) {
-                    alert(`Give a year between 1950 and ${currentYear + 1}`)
-                } else {
-                    $.ajax({
-                        url: `http://ergast.com/api/f1/${year}/drivers.json`,
-                        method: 'GET',
-                        dataType: 'json'
-                    }).done(function (data) {
-                        let drivers = [];
-                        //console.log(data.MRData.DriverTable.drivers)
-                        drivers = data.MRData.DriverTable.Drivers
-                        //console.log(drivers)
-                        for (let driver of drivers) {
-                            $('#DriverGrid').append(`<p class="drivergrid"><strong>Driver:</strong> ${driver.givenName} ${driver.familyName} ${driver.permanentNumber}<br></p> `);
-                        }
+        $('#yeargrid').on('keyup', function (e) {
+            $('.drivergrid').remove();
+            let year = $('#yeargrid').val();
+            var d = new Date();
+            var currentYear = d.getFullYear();
+            if (year < 1950 || year > currentYear + 1) {
+                $('#validyearG').remove()
+                $('#yeargrid').after(`<p id="validyearG" style="color:red"> Year must be between 1950 and ${currentYear + 1} </p>`)
+            } else {
+                $('#validyearG').remove()
+                $.ajax({
+                    url: `http://ergast.com/api/f1/${year}/drivers.json`,
+                    method: 'GET',
+                    dataType: 'json'
+                }).done(function (data) {
+                    let drivers = [];
+                    drivers = data.MRData.DriverTable.Drivers
+                    $('.drivergrid').remove();
+                    for (let driver of drivers) {
+                        $('#DriverGrid').append(`<p class="drivergrid">${driver.givenName} <strong>${driver.familyName}</strong> ${driver.permanentNumber}<br></p> `);
+                    }
 
-                        //post drivers to backend
-                        /*
-                        $.ajax({
-                            url: 'http://127.0.0.1:3000/api/2019/Drivers',
-                            method: 'POST',
-                            dataType: 'json',
-                            data: JSON.stringify(drivers),
-                            contentType: "application/json",
-                            succes: 'drivers send!'
-                        })*/
-                        //console.log(drivers);
-                    }).fail(function (er1, er2) {
-                        console.log(er1);
-                        console.log(er2);
-                    });
-                }
+                    //post drivers to backend
+                    /*
+                    $.ajax({
+                        url: 'http://127.0.0.1:3000/api/2019/Drivers',
+                        method: 'POST',
+                        dataType: 'json',
+                        data: JSON.stringify(drivers),
+                        contentType: "application/json",
+                        succes: 'drivers send!'
+                    })*/
+                    //console.log(drivers);
+                }).fail(function (er1, er2) {
+                    console.log(er1);
+                    console.log(er2);
+                });
             }
         })
     };
 
     function getCircuits() {
-        $('#yearcircuit').on('keypress', function (e) {
-            if (e.which == 13) {
-                $('.circuit').remove();
-                let year = $('#yearcircuit').val();
-                var d = new Date();
-                var currentYear = d.getFullYear();
-                if (year < 1950 || year > currentYear + 1) {
-                    alert(`Geef een jaar tussen 1950 en ${currentYear + 1}`)
-                } else {
-                    $.ajax({
-                        url: `http://ergast.com/api/f1/${year}/circuits.json`,
-                        method: 'GET',
-                        dataType: 'json'
-                    }).done(function (data) {
-                        let circuits = [];
-                        circuits = data.MRData.CircuitTable.Circuits
-                        for (let circuit of circuits) {
-                            $('#ListOfCircuits').append(`<p class="circuit"><strong>Circuit:</strong> ${circuit.circuitName} ${circuit.Location.country} </p>`);
-                        }
-                    })
-                }
-
+        $('#yearcircuit').on('keyup', function (e) {
+            $('.circuit').remove();
+            let year = $('#yearcircuit').val();
+            var d = new Date();
+            var currentYear = d.getFullYear();
+            if (year < 1950 || year > currentYear + 1) {
+                $('#validyearCi').remove()
+                $('#yearcircuit').after(`<p id="validyearCi" style="color:red"> Year must be between 1950 and ${currentYear + 1} </p>`)
+            } else {
+                $('#validyearCi').remove()
+                $.ajax({
+                    url: `http://ergast.com/api/f1/${year}/circuits.json`,
+                    method: 'GET',
+                    dataType: 'json'
+                }).done(function (data) {
+                    let circuits = [];
+                    circuits = data.MRData.CircuitTable.Circuits
+                    $('.circuit').remove();
+                    for (let circuit of circuits) {
+                        $('#ListOfCircuits').append(`<p class="circuit"> <strong>${circuit.Location.country}</strong> ${circuit.circuitName} </p>`);
+                    }
+                })
             }
 
         })
@@ -112,28 +111,28 @@ $(function () {
     };
 
     function getChampionship() {
-        $('#yearchampionship').on('keypress', function (e) {
-            if (e.which == 13) {
-                $('.championship').remove();
-                let year = $('#yearchampionship').val();
-                var d = new Date();
-                var currentYear = d.getFullYear();
-                if (year < 1950 || year > currentYear + 1) {
-                    alert(`Geef een jaar tussen 1950 en ${currentYear + 1}`)
-                } else {
-                    $.ajax({
-                        url: `http://ergast.com/api/f1/${year}/driverstandings.json`,
-                        method: 'GET',
-                        dataType: 'json'
-                    }).done(function (data) {
-                        let championship = [];
-                        championship = data.MRData.StandingsTable.StandingsLists[0].DriverStandings
-                        for (let c of championship) {
-                            $('#ChampionshipList').append(`<p class="championship"><strong>${c.position}</strong> ${c.Driver.givenName} ${c.Driver.familyName} ${c.points} points </p>`);
-                        }
-                    })
-                }
-
+        $('#yearchampionship').on('keyup', function (e) {
+            $('.championship').remove();
+            let year = $('#yearchampionship').val();
+            var d = new Date();
+            var currentYear = d.getFullYear();
+            if (year < 1950 || year > currentYear + 1) {
+                $('#validyearC').remove()
+                $('#yearchampionship').after(`<p id="validyearC" style="color:red"> Year must be between 1950 and ${currentYear} </p>`)
+            } else {
+                $('#validyearC').remove()
+                $.ajax({
+                    url: `http://ergast.com/api/f1/${year}/driverstandings.json`,
+                    method: 'GET',
+                    dataType: 'json'
+                }).done(function (data) {
+                    let championship = [];
+                    championship = data.MRData.StandingsTable.StandingsLists[0].DriverStandings
+                    $('.championship').remove();
+                    for (let c of championship) {
+                        $('#ChampionshipList').append(`<p class="championship"><strong>${c.position}</strong> ${c.Driver.givenName} ${c.Driver.familyName} with ${c.points} points </p>`);
+                    }
+                })
             }
 
         })
@@ -158,7 +157,7 @@ $(function () {
                 }).done(function (data) {
                     let constructors = [];
                     constructors = data.MRData.ConstructorTable.Constructors
-                    console.log(constructors)
+                    $('option').remove()
                     for (let c of constructors) {
                         $('#constructorOption').append(`<option value="${c.name}">${c.name}</option>`)
                     }
@@ -186,7 +185,7 @@ $(function () {
                 }).done(function (data) {
                     let constructors = [];
                     constructors = data.MRData.ConstructorTable.Constructors
-                    console.log(constructors)
+                    $('option').remove()
                     for (let c of constructors) {
                         $('#constructorOptionU').append(`<option value="${c.name}">${c.name}</option>`)
                     }
