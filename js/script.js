@@ -4,10 +4,12 @@ $(function () {
 
     getAllDrivers();
     getDriverGrid();
+    chooseDriverGrid();
     getCircuits();
     getChampionship()
     getConstructors()
     getConstructorsUpdate()
+    getMyDrivers()
 
     function getAllDrivers() {
         $.ajax({
@@ -80,6 +82,33 @@ $(function () {
             }
         })
     };
+
+    function chooseDriverGrid() {
+        $('#chooseGridyear').on('keyup', function (e) {
+            $('p').remove();
+            let year = $('#chooseGridyear').val();
+            var d = new Date();
+            var currentYear = d.getFullYear();
+            if (year < 1950 || year > currentYear + 1) {
+                $('#validyearD').remove()
+                $('#chooseGridyear').after(`<p id="validyearD" style="color:red"> Year must be between 1950 and ${currentYear + 1} </p>`)
+            } else {
+                $('#validyearD').remove()
+                $.ajax({
+                    url: `http://ergast.com/api/f1/${year}/drivers.json`,
+                    method: 'GET',
+                    dataType: 'json'
+                }).done(function (data) {
+                    let drivers = [];
+                    drivers = data.MRData.DriverTable.Drivers
+                    $('p').remove();
+                    for (let driver of drivers) {
+                        $('.gridyear').append(`<p>${driver.givenName} <strong>${driver.familyName}</strong> ${driver.permanentNumber}<br></p> `);
+                    }
+                })
+            }
+        })
+    }
 
     function getCircuits() {
         $('#yearcircuit').on('keyup', function (e) {
@@ -166,7 +195,6 @@ $(function () {
         })
     }
 
-
     function getConstructorsUpdate() {
         $('#yearConstructorU').on('keyup', function (e) {
             let year = $('#yearConstructorU').val();
@@ -238,6 +266,7 @@ $(function () {
     })
 
     $(document).on('click', '.card', function (e) {
+        $('option').remove()
         e.preventDefault();
         let id = $(this).find('.delDriver').attr('id');
         let fname = $(this).find('#dfname').attr('value')
@@ -246,7 +275,6 @@ $(function () {
         let year = $(this).find('#dyear').attr('value')
         let team = $(this).find('#dteam').attr('value')
 
-        console.log(fname)
         $('.updatedriver').find('#fnameU').val(fname)
         $('.updatedriver').find('#lnameU').val(lname)
         $('.updatedriver').find('#dnumberU').val(dnumber)
@@ -277,5 +305,17 @@ $(function () {
 
 
 
+    function getMyDrivers() {
+        $.ajax({
+            url: 'http://127.0.0.1:3000/api/getAllDrivers',
+            method: 'GET',
+            dataType: 'json'
+        }).done(function (data) {
+            for (let d of data) {
+                $('#myDrivers').append(`<option> ${d.fname} ${d.lname} - ${d.team}</option>`)
+            }
+
+        })
+    }
 
 })

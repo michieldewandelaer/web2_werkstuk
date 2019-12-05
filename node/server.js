@@ -4,9 +4,11 @@ const MongoClient = require('mongodb').MongoClient;
 let ObjectID = require('mongodb').ObjectID
 const assert = require('assert');
 const path = require('path');
-const app = express()
+const app = express();
 const bodyParser = require('body-parser');
-const port = 3000
+const port = 3000;
+const request = require('request');
+
 
 let cors = require('cors')
 
@@ -96,6 +98,12 @@ app.post('/api/updateDriver', (req, res) => {
         res.send('driver updated')
     })
 })
+
+// app.get('/api/2019/Drivers', (req, res) => {
+//     request('http://ergast.com/api/f1/2019/drivers.json', {
+//         json: true
+//     }, (err, res, body) => {})
+// })
 
 //push to mongodb
 app.post('/api/2019/Drivers', (req, res) => {

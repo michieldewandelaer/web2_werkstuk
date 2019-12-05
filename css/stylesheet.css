@@ -145,7 +145,7 @@ a:hover::after {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
-    width: 95%;
+    width: 100%;
 }
 
 .leftcontent {
@@ -153,9 +153,26 @@ a:hover::after {
     width: 70%;
 }
 
+#labelyear {
+    margin-right: 2%;
+}
+
+.gridyear {
+    width: 100%;
+    margin: 5% 0 20% 0;
+    text-align: center;
+}
+
+.gridyear p {
+    width: 33%;
+    float: left;
+    text-align: center;
+}
+
 .rightcontent {
     float: left;
-    width: 30%;
+    width: 25%;
+    margin-left: 5%;
 }
 
 .card {
@@ -276,7 +293,7 @@ button:hover {
     background-color: #D10600;
 }
 
-#driver {
+#myDrivers {
     width: 40%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -285,7 +302,7 @@ button:hover {
     border-radius: 4px;
 }
 
-#gridyear {
+#chooseGridyear {
     width: 20%;
     padding: 12px 20px;
     margin: 8px 0;
