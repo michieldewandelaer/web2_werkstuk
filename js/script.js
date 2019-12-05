@@ -7,6 +7,7 @@ $(function () {
     getCircuits();
     getChampionship()
     getConstructors()
+    getConstructorsUpdate()
 
     function getAllDrivers() {
         $.ajax({
@@ -22,7 +23,12 @@ $(function () {
                     <img src="img/McLaren-logo.png">
                     <div class="caption">
                         <h1> ${d.fname} ${d.lname} </h1>
-                        <p> ${d.team} - ${d.year} </p>
+                        <p> ${d.team} - ${d.year}</p>
+                        <p hidden id="dfname" value="${d.fname}"> ${d.fname} </p>
+                        <p hidden id="dlname" value="${d.lname}"> ${d.lname} </p>
+                        <p hidden id="dnumber" value="${d.dnumber}"> ${d.dnumber} </p>
+                        <p hidden id="dteam" value="${d.team}"> ${d.team} - </p>
+                        <p hidden id="dyear" value="${d.year}"> ${d.year} </p>
                     </div>
                 </div>
                 `);
@@ -141,8 +147,10 @@ $(function () {
             var d = new Date();
             var currentYear = d.getFullYear();
             if (year < 1950 || year > currentYear + 1) {
-                //alert(`Geef een jaar tussen 1950 en ${currentYear + 1}`)
+                $('p').remove()
+                $('#yearConstructor').after(`<p style="color:red"> Year must be between 1950 and ${currentYear + 1} </p>`)
             } else {
+                $('p').remove()
                 $.ajax({
                     url: `http://ergast.com/api/f1/${year}/constructors.json`,
                     method: 'GET',
@@ -153,6 +161,34 @@ $(function () {
                     console.log(constructors)
                     for (let c of constructors) {
                         $('#constructorOption').append(`<option value="${c.name}">${c.name}</option>`)
+                    }
+                })
+            }
+        })
+    }
+
+
+    function getConstructorsUpdate() {
+        $('#yearConstructorU').on('keyup', function (e) {
+            let year = $('#yearConstructorU').val();
+            $('option').remove()
+            var d = new Date();
+            var currentYear = d.getFullYear();
+            if (year < 1950 || year > currentYear + 1) {
+                $('p').remove()
+                $('#yearConstructorU').after(`<p style="color:red"> Year must be between 1950 and ${currentYear + 1} </p>`)
+            } else {
+                $('p').remove()
+                $.ajax({
+                    url: `http://ergast.com/api/f1/${year}/constructors.json`,
+                    method: 'GET',
+                    dataType: 'json'
+                }).done(function (data) {
+                    let constructors = [];
+                    constructors = data.MRData.ConstructorTable.Constructors
+                    console.log(constructors)
+                    for (let c of constructors) {
+                        $('#constructorOptionU').append(`<option value="${c.name}">${c.name}</option>`)
                     }
                 })
             }
@@ -201,4 +237,46 @@ $(function () {
         });
 
     })
+
+    $(document).on('click', '.card', function (e) {
+        e.preventDefault();
+        let id = $(this).find('.delDriver').attr('id');
+        let fname = $(this).find('#dfname').attr('value')
+        let lname = $(this).find('#dlname').attr('value')
+        let dnumber = $(this).find('#dnumber').attr('value')
+        let year = $(this).find('#dyear').attr('value')
+        let team = $(this).find('#dteam').attr('value')
+
+        console.log(fname)
+        $('.updatedriver').find('#fnameU').val(fname)
+        $('.updatedriver').find('#lnameU').val(lname)
+        $('.updatedriver').find('#dnumberU').val(dnumber)
+        $('.updatedriver').find('#yearConstructorU').val(year)
+        $('.updatedriver').find('#constructorOptionU').append(`<option> ${team} </option>`)
+
+        $('#submitupdate').on('click', function (e) {
+            e.preventDefault();
+
+            let driverObject = {
+                id: id,
+                fname: $('#fnameU').val(),
+                lname: $('#lnameU').val(),
+                dnumber: $('#dnumberU').val(),
+                year: $('#yearConstructorU').val(),
+                team: $('#constructorOptionU').val(),
+            }
+            $.ajax({
+                url: 'http://127.0.0.1:3000/api/updateDriver',
+                method: 'POST',
+                data: driverObject
+            }).done(function (data) {
+                console.log('updated ');
+
+            })
+        })
+    })
+
+
+
+
 })

@@ -71,12 +71,30 @@ app.post('/api/insertDriver', (req, res) => {
 
 app.delete('/api/deleteDriver', (req, res) => {
     let collection = db.collection('drivers');
-    var objectId = new ObjectID(req.body.id)
+    let objectId = new ObjectID(req.body.id)
     collection.deleteOne({
         _id: objectId
     }).then(function (data) {
         res.send('deleted!')
     });
+})
+
+app.post('/api/updateDriver', (req, res) => {
+    let collection = db.collection('drivers');
+    let objectId = new ObjectID(req.body.id)
+    collection.updateOne({
+        _id: objectId
+    }, {
+        $set: {
+            fname: req.body.fname,
+            lname: req.body.lname,
+            dnumber: req.body.dnumber,
+            year: req.body.year,
+            team: req.body.team
+        }
+    }).then(function (data) {
+        res.send('driver updated')
+    })
 })
 
 //push to mongodb
@@ -86,21 +104,20 @@ app.post('/api/2019/Drivers', (req, res) => {
     console.log(req.body)
 })
 
-
-
-//werkt nog niet
 app.post('/api/updateDriver', (req, res) => {
     let collection = db.collection('drivers');
-    var objectId = new objectId(req.body.id)
+    let objectId = new ObjectID(req.body.id)
     collection.updateOne({
         _id: objectId
     }, {
         $set: {
-            name: req.body.name,
-            number: req.body.number
+            fname: req.body.fname,
+            lname: req.body.lname,
+            dnumber: req.body.dnumber,
+            year: req.body.year,
+            team: req.body.team
         }
     }).then(function (data) {
-        console.log(data)
         res.send('driver updated')
     })
 })

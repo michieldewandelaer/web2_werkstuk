@@ -70,7 +70,7 @@
                     <br>
                     <label for="dnumber">Driver number:</label>
                     <br>
-                    <input id="dnumber" type="number" name="dnumber">
+                    <input id="dnumber" type="number" name="dnumber" min="1" max="99">
                     <br>
                     <label for="year">Year:</label>
                     <input id="yearConstructor" type="number" name="yearConstructor" min="1950" max="2020">
@@ -79,6 +79,28 @@
                     <select id="constructorOption" name="constructor">
                     </select>
                     <button id="submit" onclick="location.reload();">Voeg toe</button>
+                </form>
+                <h2>Update driver</h2>
+                <form class="updatedriver">
+                    <label for="fnameU">First name:</label>
+                    <br>
+                    <input id="fnameU" type="text" name="fname">
+                    <br>
+                    <label for="lnameU">Last name:</label>
+                    <br>
+                    <input id="lnameU" type="text" name="lname">
+                    <br>
+                    <label for="dnumberU">Driver number:</label>
+                    <br>
+                    <input id="dnumberU" type="number" name="dnumber" min="1" max="99">
+                    <br>
+                    <label for="yearU">Year:</label>
+                    <input id="yearConstructorU" type="number" name="yearConstructor" min="1950" max="2020">
+                    <label for="teamU">Team:</label>
+                    <br>
+                    <select id="constructorOptionU" name="constructor">
+                    </select>
+                    <button id="submitupdate" onclick="location.reload();">Update driver</button>
                 </form>
 
             </div>
