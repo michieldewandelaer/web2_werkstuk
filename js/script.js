@@ -202,8 +202,7 @@ $(function () {
                     }
                     $(document).on('change', '#roundResult', function () {
                         $('.resultp').remove()
-                        var selected = $('#roundResult').children("option:selected").val() - 1
-                        console.log(selected)
+                        var selected = $('#roundResult').children("option:selected").val()
                         $.ajax({
                             url: `https://ergast.com/api/f1/${year}/${selected}/results.json`,
                             method: 'GET',
@@ -213,9 +212,7 @@ $(function () {
                             results = data.MRData.RaceTable.Races
                             $('.resultp').remove()
                             for (let result of results[0].Results) {
-                                console.log(result)
-
-                                $('#ResultList').append(`<p class="resultp"><strong>${result.position} </strong> ${result.Driver.familyName}</p>`)
+                                $('#ResultList').append(`<p class="resultp"><strong>${result.position} </strong> ${result.Driver.givenName} ${result.Driver.familyName}</p>`)
                             }
 
 

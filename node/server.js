@@ -112,24 +112,6 @@ app.post('/api/2019/Drivers', (req, res) => {
     console.log(req.body)
 })
 
-app.post('/api/updateDriver', (req, res) => {
-    let collection = db.collection('drivers');
-    let objectId = new ObjectID(req.body.id)
-    collection.updateOne({
-        _id: objectId
-    }, {
-        $set: {
-            fname: req.body.fname,
-            lname: req.body.lname,
-            dnumber: req.body.dnumber,
-            year: req.body.year,
-            team: req.body.team
-        }
-    }).then(function (data) {
-        res.send('driver updated')
-    })
-})
-
 app.get('/api/getDriver', (req, res) => {
     let collection = db.collection('drivers');
     var objectId = new ObjectID(req.query.id)
