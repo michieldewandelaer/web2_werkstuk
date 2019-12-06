@@ -1,4 +1,6 @@
 'use strict'
+
+
 $(function () {
     console.log('linked');
 
@@ -7,6 +9,7 @@ $(function () {
     chooseDriverGrid();
     getCircuits();
     getChampionship()
+    getRaceWinner()
     getConstructors()
     getConstructorsUpdate()
     getMyDrivers()
@@ -61,7 +64,12 @@ $(function () {
                     drivers = data.MRData.DriverTable.Drivers
                     $('.drivergrid').remove();
                     for (let driver of drivers) {
-                        $('#DriverGrid').append(`<p class="drivergrid">${driver.givenName} <strong>${driver.familyName}</strong> ${driver.permanentNumber}<br></p> `);
+                        if (typeof driver.permanentNumber === "undefined") {
+                            $('#DriverGrid').append(`<p class="drivergrid">${driver.givenName} <strong>${driver.familyName}</strong><br></p> `);
+                        } else {
+                            $('#DriverGrid').append(`<p class="drivergrid">${driver.givenName} <strong>${driver.familyName}</strong> ${driver.permanentNumber}<br></p> `);
+                        }
+
                     }
 
                     //post drivers to backend
@@ -168,6 +176,57 @@ $(function () {
 
     };
 
+    function getRaceWinner() {
+        $('#yearResult').on('keyup', function (e) {
+            $('.results').remove();
+            let year = $('#yearResult').val();
+            var d = new Date();
+            var currentYear = d.getFullYear();
+            if (year < 1950 || year > currentYear + 1) {
+                $('#validyearR').remove()
+                $('#yearResult').after(`<p id="validyearR" style="color:red"> Year must be between 1950 and ${currentYear} </p>`)
+            } else {
+                $('#validyearR').remove()
+                $.ajax({
+                    url: `https://ergast.com/api/f1/${year}/results/1.json`,
+                    method: 'GET',
+                    dataType: 'json'
+                }).done(function (data) {
+                    let results = [];
+                    results = data.MRData.RaceTable.Races
+                    $('.results').remove();
+                    $('.resultsp').remove();
+                    for (let result of results) {
+                        $('#roundResult').append(`<option class="results" value="${result.round}"> ${result.Circuit.Location.country}</option> `);
+                        //console.log(result.Results[0].Driver.familyName)
+                    }
+                    $(document).on('change', '#roundResult', function () {
+                        $('.resultp').remove()
+                        var selected = $('#roundResult').children("option:selected").val() - 1
+                        console.log(selected)
+                        $.ajax({
+                            url: `https://ergast.com/api/f1/${year}/${selected}/results.json`,
+                            method: 'GET',
+                            dataType: 'json'
+                        }).done(function (data) {
+                            let results = [];
+                            results = data.MRData.RaceTable.Races
+                            $('.resultp').remove()
+                            for (let result of results[0].Results) {
+                                console.log(result)
+
+                                $('#ResultList').append(`<p class="resultp"><strong>${result.position} </strong> ${result.Driver.familyName}</p>`)
+                            }
+
+
+                        })
+                    })
+                })
+            }
+        })
+
+    }
+
     function getConstructors() {
         $('#yearConstructor').on('keyup', function (e) {
             let year = $('#yearConstructor').val();
@@ -221,6 +280,7 @@ $(function () {
             }
         })
     }
+
 
     $('#submit').on('click', function (e) {
         e.preventDefault();
