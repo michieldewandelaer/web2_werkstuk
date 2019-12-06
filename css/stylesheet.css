@@ -302,6 +302,10 @@ button:hover {
     border-radius: 4px;
 }
 
+.h2drivers {
+    text-align: center;
+}
+
 #chooseGridyear {
     width: 20%;
     padding: 12px 20px;
