@@ -195,7 +195,6 @@ $(function () {
                     let results = [];
                     results = data.MRData.RaceTable.Races
                     $('.results').remove();
-                    $('.resultsp').remove();
                     for (let result of results) {
                         $('#roundResult').append(`<option class="results" value="${result.round}"> ${result.Circuit.Location.country}</option> `);
                         //console.log(result.Results[0].Driver.familyName)
