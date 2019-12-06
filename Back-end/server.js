@@ -114,7 +114,7 @@ app.post('/api/2019/Drivers', (req, res) => {
 
 app.get('/api/getDriver', (req, res) => {
     let collection = db.collection('drivers');
-    var objectId = new ObjectID(req.query.id)
+    var objectId = new ObjectID(req.body.id)
     collection.findOne({
         _id: objectId
     }).then(function (data) {
