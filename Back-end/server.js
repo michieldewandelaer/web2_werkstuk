@@ -112,6 +112,11 @@ app.post('/api/2019/Drivers', (req, res) => {
     console.log(req.body)
 })
 
+app.post('/api/myRaces', (req, res) => {
+    let collection = db.collection('drivenRaces');
+    collection.insertMany(req.body)
+})
+
 app.get('/api/getDriver', (req, res) => {
     let collection = db.collection('drivers');
     var objectId = new ObjectID(req.body.id)

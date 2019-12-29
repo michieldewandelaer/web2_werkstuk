@@ -153,6 +153,21 @@ a:hover::after {
     width: 70%;
 }
 
+.left {
+    float: left;
+    width: 33%;
+}
+
+.middle {
+    float: left;
+    width: 33%;
+}
+
+.right {
+    float: left;
+    width: 33%;
+}
+
 #labelyear {
     margin-right: 2%;
 }
@@ -255,6 +270,17 @@ select {
     box-sizing: border-box;
 }
 
+#ChooseCircuit input {
+    width: 10%;
+}
+
+#ChooseCircuit p {
+    float: left;
+    width: 60%;
+}
+
+
+
 button {
     width: 100%;
     background-color: #E10600;
@@ -294,7 +320,7 @@ button:hover {
 }
 
 #myDrivers {
-    width: 40%;
+    width: 70%;
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;

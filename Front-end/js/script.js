@@ -13,6 +13,7 @@ $(function () {
     getConstructors()
     getConstructorsUpdate()
     getMyDrivers()
+    showStartingGrid()
 
     function getAllDrivers() {
         $.ajax({
@@ -277,6 +278,94 @@ $(function () {
         })
     }
 
+    function getMyDrivers() {
+
+        $.ajax({
+            url: 'http://127.0.0.1:3000/api/getAllDrivers',
+            method: 'GET',
+            dataType: 'json'
+        }).done(function (data) {
+            for (let d of data) {
+                $('#myDrivers').append(`<option value="${d.year}"> ${d.fname} ${d.lname} - ${d.team} ${d.year}</option>`)
+            }
+
+        })
+    }
+
+    function showStartingGrid() {
+        $('#myDrivers').change(function (e) {
+            let year = $('option:selected').val()
+            $('.drivergrid').remove();
+            $('input').remove()
+            $('p').remove()
+            $('br').remove()
+            $.ajax({
+                url: `http://ergast.com/api/f1/${year}/drivers.json`,
+                method: 'GET',
+                dataType: 'json'
+            }).done(function (data) {
+                let drivers = [];
+                drivers = data.MRData.DriverTable.Drivers
+                $('.drivergrid').remove();
+                for (let driver of drivers) {
+                    if (typeof driver.permanentNumber === "undefined") {
+                        $('#StartingGrid').append(`<p class="drivergrid">${driver.givenName} <strong>${driver.familyName}</strong><br></p> `);
+                    } else {
+                        $('#StartingGrid').append(`<p class="drivergrid">${driver.givenName} <strong>${driver.familyName}</strong> ${driver.permanentNumber}<br></p> `);
+                    }
+
+                }
+            })
+
+            $.ajax({
+                url: `http://ergast.com/api/f1/${year}/results.json?limit=10000`,
+                method: 'GET',
+                dataType: 'json'
+            }).done(function (data) {
+                let circuits = [];
+                circuits = data.MRData.RaceTable.Races
+                $('input').remove()
+                $('br').remove()
+                for (let circuit of circuits) {
+                    $('#ChooseCircuit').append(`<input type="radio" name="track" value="${circuit.round}"> <p>${circuit.raceName}</p><br>`)
+                }
+            })
+
+        })
+
+    }
+
+    $('.startrace').on('click', function (e) {
+        e.preventDefault();
+        let round = $("input[name='track']:checked").val();
+        let year = $('option:selected').val();
+
+        let mydriver = {
+            fname: $(),
+            lname: $(),
+            team: $(),
+            year: $()
+
+        }
+
+        $.ajax({
+            url: `http://ergast.com/api/f1/${year}/${round}/results.json`,
+            method: 'GET',
+            dataType: 'json'
+        }).done(function (data) {
+            let results = [];
+            results = data.MRData.RaceTable.Races[0].Results;
+            console.log(results)
+            for (let result of results) {
+                $('.onder').append(`<p>${result.position} ${result.Driver.familyName} </p>`)
+            }
+        })
+
+
+    })
+
+
+    //CRUD
 
     $('#submit').on('click', function (e) {
         e.preventDefault();
@@ -358,20 +447,5 @@ $(function () {
             })
         })
     })
-
-
-
-    function getMyDrivers() {
-        $.ajax({
-            url: 'http://127.0.0.1:3000/api/getAllDrivers',
-            method: 'GET',
-            dataType: 'json'
-        }).done(function (data) {
-            for (let d of data) {
-                $('#myDrivers').append(`<option> ${d.fname} ${d.lname} - ${d.team}</option>`)
-            }
-
-        })
-    }
 
 })

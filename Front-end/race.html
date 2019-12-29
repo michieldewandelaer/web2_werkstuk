@@ -24,33 +24,26 @@
             </ul>
         </div>
         <div class="itemcontent">
-            <div class="leftcontent">
+            <div class="left">
                 <h2>Choose your driver</h2>
                 <label id="labelyear" for="driver">Driver</label>
                 <br>
                 <select id="myDrivers" name="driver">
                 </select>
                 <br>
-                <h2 class="h2grid">Choose grid year</h2>
-                <label for="year" id="labelyear">Year:</label>
-                <br>
-                <input id="chooseGridyear" type="number" name="gridyear" min="1950" max="2020">
-                <div class="gridyear"></div>
-
+            </div>
+            <div class="middle">
+                <h2 class="h2grid">Starting Grid</h2>
+                <div id="StartingGrid"></div>
             </div>
 
-            <div class="rightcontent">
-                <h2>Choose your track</h2>
-                <label for="year">Year</label>
+
+            <div class="right">
+                <h2>Choose circuit</h2>
                 <br>
-                <select id="year" name="year">
-                    <option value="mclaren">1950</option>
-                    <option value="redbull">1980</option>
-                    <option value="Mercedes">1999</option>
-                </select>
-                <input type="radio" name="track" value="Belgium"> Belgium<br>
-                <input type="radio" name="track" value="Austria"> Austria<br>
-                <input type="radio" name="track" value="Italie"> Italie
+                <div id="ChooseCircuit">
+                </div>
+
             </div>
             <div class="onder">
                 <button class="startrace">Race!</button>
