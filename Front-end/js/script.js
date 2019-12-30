@@ -286,7 +286,7 @@ $(function () {
             dataType: 'json'
         }).done(function (data) {
             for (let d of data) {
-                $('#myDrivers').append(`<option value="${d.year}"> ${d.fname} ${d.lname} - ${d.team} ${d.year}</option>`)
+                $('#myDrivers').append(`<option value="${d.year}"> ${d.fname} ${d.lname} - ${d.team} ${d.year}</option>`);
             }
 
         })
@@ -337,16 +337,19 @@ $(function () {
 
     $('.startrace').on('click', function (e) {
         e.preventDefault();
+        $('.presults').remove()
         let round = $("input[name='track']:checked").val();
         let year = $('option:selected').val();
 
+        let driver = $('option:selected').text().split(' ')
         let mydriver = {
-            fname: $(),
-            lname: $(),
-            team: $(),
-            year: $()
-
+            Driver: {
+                givenName: driver[1],
+                familyName: driver[2],
+            }
         }
+
+        let arr = []
 
         $.ajax({
             url: `http://ergast.com/api/f1/${year}/${round}/results.json`,
@@ -355,10 +358,26 @@ $(function () {
         }).done(function (data) {
             let results = [];
             results = data.MRData.RaceTable.Races[0].Results;
-            console.log(results)
+            let random = Math.floor(Math.random() * results.length)
+            results[random] = mydriver
+            let i = 1
             for (let result of results) {
-                $('.onder').append(`<p>${result.position} ${result.Driver.familyName} </p>`)
+                $('.onder').append(`<p class='presults'>${i++} ${result.Driver.givenName} ${result.Driver.familyName} </p>`)
+                arr.push({
+                    givenName: result.Driver.givenName,
+                    familyName: result.Driver.familyName
+                })
+
             }
+
+            $.ajax({
+                url: 'http://127.0.0.1:3000/api/myRaces',
+                method: 'POST',
+                data: arr
+            }).done(function (data) {
+                console.log('inserted');
+            })
+            console.log(arr)
         })
 
 

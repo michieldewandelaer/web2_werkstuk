@@ -114,7 +114,10 @@ app.post('/api/2019/Drivers', (req, res) => {
 
 app.post('/api/myRaces', (req, res) => {
     let collection = db.collection('drivenRaces');
-    collection.insertMany(req.body)
+    collection.insertMany([
+        req.body
+    ])
+    console.log(req.body)
 })
 
 app.get('/api/getDriver', (req, res) => {
