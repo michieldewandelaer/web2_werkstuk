@@ -1,9 +1,7 @@
 'use strict'
 
-
 $(function () {
-    console.log('linked');
-
+    var racecounter = 0;
     getAllDrivers();
     getDriverGrid();
     chooseDriverGrid();
@@ -14,6 +12,8 @@ $(function () {
     getConstructorsUpdate()
     getMyDrivers()
     showStartingGrid()
+    getMyRaces()
+    showResult()
 
     function getAllDrivers() {
         $.ajax({
@@ -299,6 +299,7 @@ $(function () {
             $('input').remove()
             $('p').remove()
             $('br').remove()
+            $('.grandprix').remove()
             $.ajax({
                 url: `http://ergast.com/api/f1/${year}/drivers.json`,
                 method: 'GET',
@@ -335,10 +336,51 @@ $(function () {
 
     }
 
+    function getMyRaces() {
+        $.ajax({
+            url: 'http://127.0.0.1:3000/api/getMyRaces',
+            method: 'GET',
+            dataType: 'json'
+        }).done(function (data) {
+            for (let d of data) {
+                $('.myraces').append(`<button class="showResult" id="${d._id}"> Race ${d.racenumber} &nbsp / &nbsp ${d.year} &nbsp / &nbsp ${d.circuit}</button>`);
+
+
+                //console.log(d.results)
+            }
+
+        })
+    }
+
+    function showResult() {
+        $(document).on('click', '.showResult', function (e) {
+            $('.praceresults').remove();
+            e.preventDefault()
+            let id = $(this).attr('id');
+            console.log(id)
+            $.ajax({
+                url: 'http://127.0.0.1:3000/api/getRaceResult',
+                method: 'POST',
+                data: {
+                    id: id
+                }
+            }).done(function (data) {
+                console.log(data)
+                for (var i = 1; i < Object.keys(data.results).length; i++) {
+                    $('.myracesresults').append(`<p class='praceresults' >  &nbsp &nbsp &nbsp &nbsp${data.results[i].givenName}</p>`)
+                }
+            })
+        })
+
+    }
+
     $('.startrace').on('click', function (e) {
         e.preventDefault();
         $('.presults').remove()
+        $('.grandprix').remove()
+        racecounter++
         let round = $("input[name='track']:checked").val();
+        let circuit = $("input[name='track']:checked").next("p").text();
         let year = $('option:selected').val();
 
         let driver = $('option:selected').text().split(' ')
@@ -349,7 +391,15 @@ $(function () {
             }
         }
 
-        let arr = []
+        let raceStandings = {}
+        let race = {
+            racenumber: racecounter,
+            year: year,
+            round: round,
+            circuit: circuit,
+            results: raceStandings
+
+        }
 
         $.ajax({
             url: `http://ergast.com/api/f1/${year}/${round}/results.json`,
@@ -358,26 +408,39 @@ $(function () {
         }).done(function (data) {
             let results = [];
             results = data.MRData.RaceTable.Races[0].Results;
+
             let random = Math.floor(Math.random() * results.length)
             results[random] = mydriver
             let i = 1
+            let raceStanding = 1
+            $('.onder').append(`<h2 class='grandprix'> Result of the ${circuit}</h2>`)
             for (let result of results) {
-                $('.onder').append(`<p class='presults'>${i++} ${result.Driver.givenName} ${result.Driver.familyName} </p>`)
-                arr.push({
-                    givenName: result.Driver.givenName,
-                    familyName: result.Driver.familyName
-                })
 
+                if (result.Driver.givenName == driver[1]) {
+                    $('.onder').append(`<p class='presults' align="left" style=" margin: 1% 30%"> <strong> ${i++} &nbsp &nbsp &nbsp &nbsp${result.Driver.givenName} ${result.Driver.familyName} </strong></p>`)
+                } else {
+                    $('.onder').append(`<p class='presults' align="left" style=" margin: 1% 30%" > ${i++} &nbsp &nbsp &nbsp &nbsp${result.Driver.givenName} ${result.Driver.familyName} </p>`)
+                }
+                raceStandings[raceStanding] = {
+                    "givenName": result.Driver.givenName,
+                    "familyName": result.Driver.familyName
+                }
+                raceStanding++
             }
-
+            let stringofdata = ''
+            stringofdata += JSON.stringify(race)
+            console.log(stringofdata)
             $.ajax({
                 url: 'http://127.0.0.1:3000/api/myRaces',
                 method: 'POST',
-                data: arr
-            }).done(function (data) {
+                data: {
+                    raceData: JSON.stringify(race)
+                }
+            }).done(function () {
+
                 console.log('inserted');
             })
-            console.log(arr)
+            console.log()
         })
 
 

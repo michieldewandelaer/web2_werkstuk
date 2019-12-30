@@ -1,7 +1,7 @@
 'use strict'
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
-let ObjectID = require('mongodb').ObjectID
+const ObjectID = require('mongodb').ObjectID
 const assert = require('assert');
 const path = require('path');
 const app = express();
@@ -114,15 +114,34 @@ app.post('/api/2019/Drivers', (req, res) => {
 
 app.post('/api/myRaces', (req, res) => {
     let collection = db.collection('drivenRaces');
-    collection.insertMany([
-        req.body
-    ])
-    console.log(req.body)
+    let data = JSON.parse(req.body.raceData)
+    collection.insertOne(data)
 })
+
+app.get('/api/getMyRaces', (req, res) => {
+    let collection = db.collection('drivenRaces');
+    collection.find().toArray().then(function (data) {
+        res.send(data)
+    })
+
+})
+
+app.post('/api/getRaceResult', (req, res) => {
+    let collection = db.collection('drivenRaces');
+    let objectId = new ObjectID(req.body.id)
+    collection.findOne({
+        _id: objectId
+    }).then(function (data) {
+        console.log(data)
+        res.send(data)
+    })
+});
+
 
 app.get('/api/getDriver', (req, res) => {
     let collection = db.collection('drivers');
-    var objectId = new ObjectID(req.body.id)
+    let objectId = new ObjectID(req.body.id)
+    console.log(objectId)
     collection.findOne({
         _id: objectId
     }).then(function (data) {
