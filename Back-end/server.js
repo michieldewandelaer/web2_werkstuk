@@ -99,45 +99,6 @@ app.post('/api/updateDriver', (req, res) => {
     })
 })
 
-// app.get('/api/2019/Drivers', (req, res) => {
-//     request('http://ergast.com/api/f1/2019/drivers.json', {
-//         json: true
-//     }, (err, res, body) => {})
-// })
-
-//push to mongodb
-app.post('/api/2019/Drivers', (req, res) => {
-    let collection = db.collection('grid2019');
-    collection.insertMany(req.body);
-    console.log(req.body)
-})
-
-app.post('/api/myRaces', (req, res) => {
-    let collection = db.collection('drivenRaces');
-    let data = JSON.parse(req.body.raceData)
-    collection.insertOne(data)
-})
-
-app.get('/api/getMyRaces', (req, res) => {
-    let collection = db.collection('drivenRaces');
-    collection.find().toArray().then(function (data) {
-        res.send(data)
-    })
-
-})
-
-app.post('/api/getRaceResult', (req, res) => {
-    let collection = db.collection('drivenRaces');
-    let objectId = new ObjectID(req.body.id)
-    collection.findOne({
-        _id: objectId
-    }).then(function (data) {
-        console.log(data)
-        res.send(data)
-    })
-});
-
-
 app.get('/api/getDriver', (req, res) => {
     let collection = db.collection('drivers');
     let objectId = new ObjectID(req.body.id)
@@ -149,6 +110,43 @@ app.get('/api/getDriver', (req, res) => {
         res.send(data)
     })
 });
+
+// app.get('/api/2019/Drivers', (req, res) => {
+//     request('http://ergast.com/api/f1/2019/drivers.json', {
+//         json: true
+//     }, (err, res, body) => {})
+// })
+
+//------------BONUS--------------//
+app.post('/api/myRaces', (req, res) => {
+    let collection = db.collection('drivenRaces');
+    let data = JSON.parse(req.body.raceData)
+    collection.insertOne(data)
+})
+
+//------------BONUS--------------//
+app.get('/api/getMyRaces', (req, res) => {
+    let collection = db.collection('drivenRaces');
+    collection.find().toArray().then(function (data) {
+        res.send(data)
+    })
+
+})
+
+//------------BONUS--------------//
+app.post('/api/getRaceResult', (req, res) => {
+    let collection = db.collection('drivenRaces');
+    let objectId = new ObjectID(req.body.id)
+    collection.findOne({
+        _id: objectId
+    }).then(function (data) {
+        //console.log(data)
+        res.send(data)
+    })
+});
+
+
+
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/html/routes.html'))

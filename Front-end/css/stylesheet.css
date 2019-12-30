@@ -270,6 +270,10 @@ select {
     box-sizing: border-box;
 }
 
+.showResult {
+    margin: 2% 0;
+}
+
 #ChooseCircuit input {
     width: 10%;
 }

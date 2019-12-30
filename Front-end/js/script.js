@@ -1,7 +1,7 @@
 'use strict'
 
 $(function () {
-    var racecounter = 0;
+    var racecounter = 1;
     getAllDrivers();
     getDriverGrid();
     chooseDriverGrid();
@@ -278,173 +278,6 @@ $(function () {
         })
     }
 
-    function getMyDrivers() {
-
-        $.ajax({
-            url: 'http://127.0.0.1:3000/api/getAllDrivers',
-            method: 'GET',
-            dataType: 'json'
-        }).done(function (data) {
-            for (let d of data) {
-                $('#myDrivers').append(`<option value="${d.year}"> ${d.fname} ${d.lname} - ${d.team} ${d.year}</option>`);
-            }
-
-        })
-    }
-
-    function showStartingGrid() {
-        $('#myDrivers').change(function (e) {
-            let year = $('option:selected').val()
-            $('.drivergrid').remove();
-            $('input').remove()
-            $('p').remove()
-            $('br').remove()
-            $('.grandprix').remove()
-            $.ajax({
-                url: `http://ergast.com/api/f1/${year}/drivers.json`,
-                method: 'GET',
-                dataType: 'json'
-            }).done(function (data) {
-                let drivers = [];
-                drivers = data.MRData.DriverTable.Drivers
-                $('.drivergrid').remove();
-                for (let driver of drivers) {
-                    if (typeof driver.permanentNumber === "undefined") {
-                        $('#StartingGrid').append(`<p class="drivergrid">${driver.givenName} <strong>${driver.familyName}</strong><br></p> `);
-                    } else {
-                        $('#StartingGrid').append(`<p class="drivergrid">${driver.givenName} <strong>${driver.familyName}</strong> ${driver.permanentNumber}<br></p> `);
-                    }
-
-                }
-            })
-
-            $.ajax({
-                url: `http://ergast.com/api/f1/${year}/results.json?limit=10000`,
-                method: 'GET',
-                dataType: 'json'
-            }).done(function (data) {
-                let circuits = [];
-                circuits = data.MRData.RaceTable.Races
-                $('input').remove()
-                $('br').remove()
-                for (let circuit of circuits) {
-                    $('#ChooseCircuit').append(`<input type="radio" name="track" value="${circuit.round}"> <p>${circuit.raceName}</p><br>`)
-                }
-            })
-
-        })
-
-    }
-
-    function getMyRaces() {
-        $.ajax({
-            url: 'http://127.0.0.1:3000/api/getMyRaces',
-            method: 'GET',
-            dataType: 'json'
-        }).done(function (data) {
-            for (let d of data) {
-                $('.myraces').append(`<button class="showResult" id="${d._id}"> Race ${d.racenumber} &nbsp / &nbsp ${d.year} &nbsp / &nbsp ${d.circuit}</button>`);
-
-
-                //console.log(d.results)
-            }
-
-        })
-    }
-
-    function showResult() {
-        $(document).on('click', '.showResult', function (e) {
-            $('.praceresults').remove();
-            e.preventDefault()
-            let id = $(this).attr('id');
-            console.log(id)
-            $.ajax({
-                url: 'http://127.0.0.1:3000/api/getRaceResult',
-                method: 'POST',
-                data: {
-                    id: id
-                }
-            }).done(function (data) {
-                console.log(data)
-                for (var i = 1; i < Object.keys(data.results).length; i++) {
-                    $('.myracesresults').append(`<p class='praceresults' >  &nbsp &nbsp &nbsp &nbsp${data.results[i].givenName}</p>`)
-                }
-            })
-        })
-
-    }
-
-    $('.startrace').on('click', function (e) {
-        e.preventDefault();
-        $('.presults').remove()
-        $('.grandprix').remove()
-        racecounter++
-        let round = $("input[name='track']:checked").val();
-        let circuit = $("input[name='track']:checked").next("p").text();
-        let year = $('option:selected').val();
-
-        let driver = $('option:selected').text().split(' ')
-        let mydriver = {
-            Driver: {
-                givenName: driver[1],
-                familyName: driver[2],
-            }
-        }
-
-        let raceStandings = {}
-        let race = {
-            racenumber: racecounter,
-            year: year,
-            round: round,
-            circuit: circuit,
-            results: raceStandings
-
-        }
-
-        $.ajax({
-            url: `http://ergast.com/api/f1/${year}/${round}/results.json`,
-            method: 'GET',
-            dataType: 'json'
-        }).done(function (data) {
-            let results = [];
-            results = data.MRData.RaceTable.Races[0].Results;
-
-            let random = Math.floor(Math.random() * results.length)
-            results[random] = mydriver
-            let i = 1
-            let raceStanding = 1
-            $('.onder').append(`<h2 class='grandprix'> Result of the ${circuit}</h2>`)
-            for (let result of results) {
-
-                if (result.Driver.givenName == driver[1]) {
-                    $('.onder').append(`<p class='presults' align="left" style=" margin: 1% 30%"> <strong> ${i++} &nbsp &nbsp &nbsp &nbsp${result.Driver.givenName} ${result.Driver.familyName} </strong></p>`)
-                } else {
-                    $('.onder').append(`<p class='presults' align="left" style=" margin: 1% 30%" > ${i++} &nbsp &nbsp &nbsp &nbsp${result.Driver.givenName} ${result.Driver.familyName} </p>`)
-                }
-                raceStandings[raceStanding] = {
-                    "givenName": result.Driver.givenName,
-                    "familyName": result.Driver.familyName
-                }
-                raceStanding++
-            }
-            let stringofdata = ''
-            stringofdata += JSON.stringify(race)
-            console.log(stringofdata)
-            $.ajax({
-                url: 'http://127.0.0.1:3000/api/myRaces',
-                method: 'POST',
-                data: {
-                    raceData: JSON.stringify(race)
-                }
-            }).done(function () {
-
-                console.log('inserted');
-            })
-            console.log()
-        })
-
-
-    })
 
 
     //CRUD
@@ -529,5 +362,175 @@ $(function () {
             })
         })
     })
+
+    //------------ BONUS ------------//
+    function getMyDrivers() {
+
+        $.ajax({
+            url: 'http://127.0.0.1:3000/api/getAllDrivers',
+            method: 'GET',
+            dataType: 'json'
+        }).done(function (data) {
+            for (let d of data) {
+                $('#myDrivers').append(`<option value="${d.year}"> ${d.fname} ${d.lname} - ${d.team} ${d.year}</option>`);
+            }
+
+        })
+    }
+
+    //------------ BONUS ------------//
+    function showStartingGrid() {
+        $('#myDrivers').change(function (e) {
+            let year = $('option:selected').val()
+            $('.drivergrid').remove();
+            $('input').remove()
+            $('p').remove()
+            $('br').remove()
+            $('.grandprix').remove()
+            $.ajax({
+                url: `http://ergast.com/api/f1/${year}/drivers.json`,
+                method: 'GET',
+                dataType: 'json'
+            }).done(function (data) {
+                let drivers = [];
+                drivers = data.MRData.DriverTable.Drivers
+                $('.drivergrid').remove();
+                for (let driver of drivers) {
+                    if (typeof driver.permanentNumber === "undefined") {
+                        $('#StartingGrid').append(`<p class="drivergrid">${driver.givenName} <strong>${driver.familyName}</strong><br></p> `);
+                    } else {
+                        $('#StartingGrid').append(`<p class="drivergrid">${driver.givenName} <strong>${driver.familyName}</strong> ${driver.permanentNumber}<br></p> `);
+                    }
+
+                }
+            })
+
+            $.ajax({
+                url: `http://ergast.com/api/f1/${year}/results.json?limit=10000`,
+                method: 'GET',
+                dataType: 'json'
+            }).done(function (data) {
+                let circuits = [];
+                circuits = data.MRData.RaceTable.Races
+                $('input').remove()
+                $('br').remove()
+                for (let circuit of circuits) {
+                    $('#ChooseCircuit').append(`<input type="radio" name="track" value="${circuit.round}"> <p>${circuit.raceName}</p><br>`)
+                }
+            })
+
+        })
+
+    }
+
+    //------------ BONUS ------------//
+    function getMyRaces() {
+        var today = new Date();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        $.ajax({
+            url: 'http://127.0.0.1:3000/api/getMyRaces',
+            method: 'GET',
+            dataType: 'json'
+        }).done(function (data) {
+            for (let d of data) {
+                $('.myraces').append(`<button class="showResult" id="${d._id}"> Race finished on <strong> ${date} </strong> &nbsp / &nbsp Raceyear: <strong> ${d.year} </strong> &nbsp / &nbsp Cicruit: <strong> ${d.circuit} </strong> </button>`);
+            }
+
+        })
+    }
+
+    //------------ BONUS ------------//
+    function showResult() {
+        $(document).on('click', '.showResult', function (e) {
+            $('.praceresults').remove();
+            e.preventDefault()
+            let id = $(this).attr('id');
+            $.ajax({
+                url: 'http://127.0.0.1:3000/api/getRaceResult',
+                method: 'POST',
+                data: {
+                    id: id
+                }
+            }).done(function (data) {
+                //console.log(data)
+                for (var i = 1; i < Object.keys(data.results).length; i++) {
+                    $('.myracesresults').append(`<p class='praceresults' > ${i} &nbsp &nbsp &nbsp${data.results[i].givenName} ${data.results[i].familyName} </p>`)
+                }
+            })
+        })
+
+    }
+
+    //------------ BONUS ------------//
+    $('.startrace').on('click', function (e) {
+        e.preventDefault();
+        $('.presults').remove()
+        $('.grandprix').remove()
+        let round = $("input[name='track']:checked").val();
+        let circuit = $("input[name='track']:checked").next("p").text();
+        let year = $('option:selected').val();
+
+        let driver = $('option:selected').text().split(' ')
+        let mydriver = {
+            Driver: {
+                givenName: driver[1],
+                familyName: driver[2],
+            }
+        }
+
+        let raceStandings = {}
+        let race = {
+            racenumber: racecounter,
+            year: year,
+            round: round,
+            circuit: circuit,
+            results: raceStandings
+
+        }
+
+        $.ajax({
+            url: `http://ergast.com/api/f1/${year}/${round}/results.json`,
+            method: 'GET',
+            dataType: 'json'
+        }).done(function (data) {
+            let results = [];
+            results = data.MRData.RaceTable.Races[0].Results;
+            racecounter++
+            let random = Math.floor(Math.random() * results.length)
+            results[random] = mydriver
+            let i = 1
+            let raceStanding = 1
+            $('.onder').append(`<h2 class='grandprix'> Result of the ${circuit}</h2>`)
+            for (let result of results) {
+
+                if (result.Driver.givenName == driver[1]) {
+                    $('.onder').append(`<p class='presults' align="left" style=" margin: 1% 30%"> <strong> ${i++} &nbsp &nbsp &nbsp &nbsp${result.Driver.givenName} ${result.Driver.familyName} </strong></p>`)
+                } else {
+                    $('.onder').append(`<p class='presults' align="left" style=" margin: 1% 30%" > ${i++} &nbsp &nbsp &nbsp &nbsp${result.Driver.givenName} ${result.Driver.familyName} </p>`)
+                }
+                raceStandings[raceStanding] = {
+                    "givenName": result.Driver.givenName,
+                    "familyName": result.Driver.familyName
+                }
+                raceStanding++
+            }
+
+            let stringofdata = ''
+            stringofdata += JSON.stringify(race)
+            //console.log(stringofdata)
+            $.ajax({
+                url: 'http://127.0.0.1:3000/api/myRaces',
+                method: 'POST',
+                data: {
+                    raceData: JSON.stringify(race)
+                }
+            }).done(function () {
+                console.log('inserted');
+            })
+        })
+
+
+    })
+
 
 })
