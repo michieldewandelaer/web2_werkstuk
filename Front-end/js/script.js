@@ -425,15 +425,13 @@ $(function () {
 
     //------------ BONUS ------------//
     function getMyRaces() {
-        var today = new Date();
-        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         $.ajax({
             url: 'http://127.0.0.1:3000/api/getMyRaces',
             method: 'GET',
             dataType: 'json'
         }).done(function (data) {
             for (let d of data) {
-                $('.myraces').append(`<button class="showResult" id="${d._id}"> Race finished on <strong> ${date} </strong> &nbsp / &nbsp Raceyear: <strong> ${d.year} </strong> &nbsp / &nbsp Cicruit: <strong> ${d.circuit} </strong> </button>`);
+                $('.myraces').append(`<button class="showResult" id="${d._id}"> Race finished on <strong> ${d.raceDate} </strong> &nbsp / &nbsp Raceyear: <strong> ${d.year} </strong> &nbsp / &nbsp Cicruit: <strong> ${d.circuit} </strong> </button>`);
             }
 
         })
@@ -466,6 +464,8 @@ $(function () {
         e.preventDefault();
         $('.presults').remove()
         $('.grandprix').remove()
+        let today = new Date();
+        let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         let round = $("input[name='track']:checked").val();
         let circuit = $("input[name='track']:checked").next("p").text();
         let year = $('option:selected').val();
@@ -480,6 +480,7 @@ $(function () {
 
         let raceStandings = {}
         let race = {
+            raceDate: date,
             racenumber: racecounter,
             year: year,
             round: round,
